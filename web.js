@@ -1,7 +1,20 @@
-var http = require('http');
+var express = require('express');
 
-var server = http.createServer(function(req, res) {
-  res.writeHead(200);
-  res.end('Salut tout le monde !');
+var app = express();
+
+app.get('/', function(req, res) {
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('Welcome to AllKorea!');
 });
-server.listen(8080);
+
+app.get('/signup', function(req, res) {
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('Please sign up!');
+});
+
+app.use(function(req, res, next){
+    res.setHeader('Content-Type', 'text/plain');
+    res.send(404, 'Cannot find page!');
+});
+
+app.listen(8080);
