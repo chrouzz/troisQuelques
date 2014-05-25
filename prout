@@ -1,4 +1,0 @@
-git rm prout
-git commit -m "Remove prout file." prout
-git pull
-git push
