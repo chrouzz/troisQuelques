@@ -1,10 +1,15 @@
 var express = require('express');
 
+var jade = require('jade');
+
 var app = express();
 
+app.set('view engine', 'jade');
+
+var html = jade.renderFile('views/index.jade');
+
 app.get('/', function(req, res) {
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Welcome to AllKorea!');
+    res.end(html);
 });
 
 app.get('/signup', function(req, res) {
