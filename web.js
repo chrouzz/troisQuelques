@@ -1,69 +1,55 @@
 var express = require('express');
-
-var jade = require('jade');
-
-// DB connection
-
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var logger = require('logger');
+var session = require('session');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function callback () {
-
-});
+var jade = require('jade');
+var passport = require('passport');
+var flash 	 = require('connect-flash');
 
 
-// Passport configuration
-
-var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
-
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-));
-
-
-// App launch
+var configDB = require('./config/database.js');
 
 var app = express();
 
-app.set('view engine', 'jade');
-
 var html = jade.renderFile('views/index.jade');
 
-var userSchema = mongoose.Schema({
-    username: String,
-    email: String,
-    password: String
+// configuration ===============================================================
+mongoose.connect(configDB.url); // connect to our database
+
+// require('./config/passport')(passport); // pass passport for configuration
+
+var env = process.env.NODE_ENV || 'development';
+
+if ('development' == env) {
+
+	// set up our express application
+	//app.use(express.logger('dev')); // log every request to the console
+	//app.use(express.cookieParser()); // read cookies (needed for auth)
+	app.use(express.bodyParser()); // get information from html forms
+	app.use(bodyParser.json({ type: 'application/vnd.api+json' }))
+
+app.use(function (req, res, next) {
+  console.log(req.body) // populated!
+  next()
 })
+	app.set('view engine', 'jade'); // set up ejs for templating
 
-var User = mongoose.model('User', userSchema)
+	// required for passport
+	app.use(express.session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+	app.use(passport.initialize());
+	app.use(passport.session()); // persistent login sessions
+	app.use(flash()); // use connect-flash for flash messages stored in session
 
-app.get('/', function(req, res) {
-    res.end(html);
-});
+}
 
-app.get('/signup', function(req, res) {
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Please sign up!');
-});
+// routes ======================================================================
+require('./routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
 
-app.post('/login',
-  passport.authenticate('local', { successRedirect: '/',
-                                   failureRedirect: '/login',
-                                   failureFlash: true })
-);
+
+
+// Error 404
 
 app.use(function(req, res, next){
     res.setHeader('Content-Type', 'text/plain');

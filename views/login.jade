@@ -1,0 +1,8 @@
+extends layout
+
+form(action='/login',method='post')
+label(for='email') email
+input(id='email',type='text',value='',placeholder='Your user name')
+label(for='password') password
+input(id='password',type='text',value='',placeholder='Your password')
+input(type='submit',value='Ok')
