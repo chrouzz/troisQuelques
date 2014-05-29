@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var logger = require('logger');
-var session = require('session');
+var session = require('cookie-session');
 var mongoose = require('mongoose');
 var jade = require('jade');
 var passport = require('passport');
@@ -27,7 +27,7 @@ if ('development' == env) {
 	// set up our express application
 	//app.use(express.logger('dev')); // log every request to the console
 	//app.use(express.cookieParser()); // read cookies (needed for auth)
-	app.use(express.bodyParser()); // get information from html forms
+	app.use(bodyParser()); // get information from html forms
 	app.use(bodyParser.json({ type: 'application/vnd.api+json' }))
 
 app.use(function (req, res, next) {
@@ -37,7 +37,7 @@ app.use(function (req, res, next) {
 	app.set('view engine', 'jade'); // set up ejs for templating
 
 	// required for passport
-	app.use(express.session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+	app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
 	app.use(passport.initialize());
 	app.use(passport.session()); // persistent login sessions
 	app.use(flash()); // use connect-flash for flash messages stored in session
