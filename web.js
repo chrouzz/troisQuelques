@@ -13,7 +13,7 @@ var configDB = require('./config/database.js');
 
 var app = express();
 
-var html = jade.renderFile('views/index.jade');
+//var html = jade.renderFile('views/index.jade');
 
 // configuration ===============================================================
 mongoose.connect(configDB.url); // connect to our database
@@ -34,6 +34,7 @@ app.use(function (req, res, next) {
   console.log(req.body) // populated!
   next()
 })
+	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade'); // set up ejs for templating
 
 	// required for passport

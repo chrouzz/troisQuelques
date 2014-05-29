@@ -1,6 +1,15 @@
 extends layout
+block stylesheet
+  link(href='http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css' rel='stylesheet')
+block prepend script
+  //- prepend will do prependation instead of replacing to the block
+  script
+    console.log('script from index.jade')
+block append content
+  //- append will do appendation instead of replacing to the block
+  h2 Hello from index.jade
 
-p Jade is cool
+  p Jade is cool
 
-a(href="/login") Login
-a(href="/signup") Sign up
+  a(href='/login') Login
+  a(href='/signup') Sign up
