@@ -1,11 +1,12 @@
 doctype html
 html(lang="en")
-    head
-    body
-        div
-        	form(action='/login', method='post')
-        		label(for='username') username
-           		input(id='username',type='text',value='',placeholder='Your user name')
-           		label(for='password') password
-           		input(id='password',type='text',value='',placeholder='Your password')
-        != body
+head
+body
+div
+form(action='/login',method='post')
+label(for='username') username
+input(id='username',type='text',value='',placeholder='Your user name')
+label(for='password') password
+input(id='password',type='text',value='',placeholder='Your password')
+input(type='submit',value='Ok')
+!= body
