@@ -20,6 +20,7 @@
     "jade": "*",
     "logger": "0.0.1",
     "mongoose": "*",
+    "morgan": "^1.1.1",
     "passport": "*",
     "passport-local": "*"
   },

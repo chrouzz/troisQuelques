@@ -1,12 +1,12 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var logger = require('logger');
-var session = require('cookie-session');
-var mongoose = require('mongoose');
-var jade = require('jade');
-var passport = require('passport');
-var flash 	 = require('connect-flash');
+var express         = require('express');
+var bodyParser      = require('body-parser');
+var cookieParser    = require('cookie-parser');
+var logger          = require('morgan');
+var session         = require('cookie-session');
+var mongoose        = require('mongoose');
+var jade            = require('jade');
+var passport        = require('passport');
+var flash 	        = require('connect-flash');
 
 
 var configDB = require('./config/database.js');
@@ -25,14 +25,14 @@ var env = process.env.NODE_ENV || 'development';
 if ('development' == env) {
 
 	// set up our express application
-	//app.use(express.logger('dev')); // log every request to the console
-	//app.use(express.cookieParser()); // read cookies (needed for auth)
+	app.use(logger('dev')); // log every request to the console
+	app.use(cookieParser()); // read cookies (needed for auth)
 	app.use(bodyParser()); // get information from html forms
 	app.use(bodyParser.json({ type: 'application/vnd.api+json' }))
 
 app.use(function (req, res, next) {
-  console.log(req.body) // populated!
-  next()
+    console.log(req.body) // populated!
+    next()
 })
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade'); // set up ejs for templating
