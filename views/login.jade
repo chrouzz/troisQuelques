@@ -8,10 +8,10 @@ block prepend script
 block append content
   //- append will do appendation instead of replacing to the block
   h2 Hello from index.jade
-
+  
   form(action='/login',method='post')
-  label(for='email') email
-  input(id='email',type='text',value='',placeholder='Your user name')
-  label(for='password') password
-  input(id='password',type='text',value='',placeholder='Your password')
-  input(type='submit',value='Ok')
+    label(for='email') email
+    input(id='email',type='text',value='',placeholder='Your user name')
+    label(for='password') password
+    input(id='password',type='text',value='',placeholder='Your password')
+    input(type='submit',value='Ok')
